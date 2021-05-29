@@ -1,0 +1,108 @@
+plugins {
+	id 'org.springframework.boot' version '2.4.5'
+	id 'io.spring.dependency-management' version '1.0.11.RELEASE'
+    id 'application'
+	id "com.github.ManifestClasspath" version "0.1.0-RELEASE"
+}
+apply from: '../gradle/common.gradle'
+apply from: '../gradle/docker.gradle'
+
+
+repositories {
+    jcenter()
+    mavenCentral()
+    flatDir {
+        dirs '../gradle/localrepo'
+    }
+}
+
+
+ext {
+	set('springCloudVersion', "2020.0.2")
+}
+
+
+application {
+    mainClassName = 'hu.perit.orchestrator.Application'
+    // Some JVM options already set in common.gradle
+    applicationDefaultJvmArgs += ['-Xmx512m', '-Xms32m']
+}
+
+
+sourceCompatibility = 11
+
+dependencies {
+	compile project(':spvitamin-core')		
+	compile project(':spvitamin-spring-server')
+	compile project(':spvitamin-spring-admin')
+	compile project(':spvitamin-spring-logging')
+	compile project(':spvitamin-spring-security')
+		
+    // Lombok
+    compileOnly 'org.projectlombok:lombok'
+    testCompileOnly 'org.projectlombok:lombok'
+    integtestCompileOnly 'org.projectlombok:lombok'
+    annotationProcessor 'org.projectlombok:lombok'
+    testAnnotationProcessor 'org.projectlombok:lombok'
+    integtestAnnotationProcessor 'org.projectlombok:lombok'
+
+    // Spring Boot
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+	implementation 'org.springframework.boot:spring-boot-starter-security'
+    implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+    implementation 'org.springframework.boot:spring-boot-starter-validation'
+    implementation 'org.springframework.boot:spring-boot-starter-actuator'
+    
+    
+    // JJWT
+    implementation group: 'io.jsonwebtoken', name: 'jjwt', version: '0.9.1'
+
+    // Swagger
+    implementation group: 'io.springfox', name: 'springfox-swagger2', version: '2.9.2'
+    implementation group: 'io.springfox', name: 'springfox-swagger-ui', version: '2.9.2'
+
+    // apache.commons
+    implementation group: 'org.apache.commons', name: 'commons-lang3', version: '3.10'
+
+    // Validation
+    implementation 'javax.validation:validation-api'
+
+	// FasterXML
+    implementation 'com.fasterxml.jackson.core:jackson-core'
+    implementation 'com.fasterxml.jackson.core:jackson-databind'
+    
+    // YAML formatting
+    implementation 'com.fasterxml.jackson.dataformat:jackson-dataformat-yaml'
+
+    // ModelMapper
+    implementation group: 'org.modelmapper.extensions', name: 'modelmapper-spring', version: '2.3.5'
+
+    // Micrometer Prometheus plugin
+    implementation group: 'io.micrometer', name: 'micrometer-registry-prometheus', version: '1.5.3'
+	
+    // Test framework
+    testImplementation('org.springframework.boot:spring-boot-starter-test') {
+        exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
+    }
+
+    testImplementation 'org.springframework.security:spring-security-test'
+    
+    compile group: 'org.junit.platform', name: 'junit-platform-commons', version: '1.7.0'
+}
+
+
+dependencyManagement {
+    imports {
+        mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
+    }
+}
+
+
+test {
+	useJUnitPlatform()
+}
+
+
+dockerImage() {
+	dependsOn 'dockerBackendImage'
+}

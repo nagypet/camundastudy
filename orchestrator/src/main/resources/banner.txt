@@ -1,0 +1,14 @@
+
+   ___           _               _             _             
+  / _ \ _ __ ___| |__   ___  ___| |_ _ __ __ _| |_ ___  _ __ 
+ | | | | '__/ __| '_ \ / _ \/ __| __| '__/ _` | __/ _ \| '__|
+ | |_| | | | (__| | | |  __/\__ \ |_| | | (_| | || (_) | |   
+  \___/|_|  \___|_| |_|\___||___/\__|_|  \__,_|\__\___/|_|   
+                                                             
+                          with Camunda
+
+${java.vendor} ${java.runtime.version}
+Spring-Boot: ${spring-boot.version}
+${application.title}: ${application.version}
+
+Author: Peter Nagy <nagy.peter.home@gmail.com>
