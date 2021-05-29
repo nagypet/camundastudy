@@ -26,6 +26,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.util.StringUtils;
 
+import hu.perit.orchestrator.rest.api.OrderApi;
 import hu.perit.spvitamin.core.crypto.CryptoUtil;
 import hu.perit.spvitamin.spring.config.SecurityProperties;
 import hu.perit.spvitamin.spring.config.SysConfig;
@@ -105,11 +106,30 @@ public class WebSecurityConfig
     @Order(2)
     public static class Order2 extends WebSecurityConfigurerAdapter
     {
+        @Override
+        protected void configure(HttpSecurity http) throws Exception
+        {
+            SimpleHttpSecurityBuilder.newInstance(http) // 
+                .scope(OrderApi.BASE_URL_ORDERS + "/**") //
+                .authorizeRequests() // 
+                .anyRequest().permitAll();
+        }
+
+    }
+
+
+    /*
+     * ============== Order(3) =========================================================================================
+     */
+    @Configuration
+    @Order(3)
+    public static class Order3 extends WebSecurityConfigurerAdapter
+    {
 
         private final CustomAuthenticationEntryPoint authenticationEntryPoint;
         private final CustomAccessDeniedHandler accessDeniedHandler;
 
-        public Order2(CustomAuthenticationEntryPoint authenticationEntryPoint, CustomAccessDeniedHandler accessDeniedHandler)
+        public Order3(CustomAuthenticationEntryPoint authenticationEntryPoint, CustomAccessDeniedHandler accessDeniedHandler)
         {
             this.authenticationEntryPoint = authenticationEntryPoint;
             this.accessDeniedHandler = accessDeniedHandler;

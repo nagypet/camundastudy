@@ -1,4 +1,4 @@
-package hu.perit.orchestrator.rest.api;
+package hu.perit.orchestrator.rest.controller;
 
 import javax.servlet.http.HttpServletRequest;
 

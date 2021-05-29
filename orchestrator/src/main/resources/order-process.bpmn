@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_0jmq4mz" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="4.8.1" modeler:executionPlatform="Camunda Platform" modeler:executionPlatformVersion="7.15.0">
+  <bpmn:process id="order-process" isExecutable="true">
+    <bpmn:startEvent id="start">
+      <bpmn:outgoing>Flow_0x0dbpt</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:sequenceFlow id="Flow_0x0dbpt" sourceRef="start" targetRef="reserve-stock" />
+    <bpmn:serviceTask id="reserve-stock" name="Reserve stock" camunda:class="hu.perit.orchestrator.bpmn.orchestrator.ReserveStockDelegate">
+      <bpmn:incoming>Flow_0x0dbpt</bpmn:incoming>
+      <bpmn:outgoing>Flow_0e5fhjv</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:sequenceFlow id="Flow_0e5fhjv" sourceRef="reserve-stock" targetRef="is-stock-available" />
+    <bpmn:sequenceFlow id="Flow_1fx9mjq" sourceRef="charge-creditcard" targetRef="is-payment-successfull" />
+    <bpmn:exclusiveGateway id="is-stock-available" name="Stock available?">
+      <bpmn:incoming>Flow_0e5fhjv</bpmn:incoming>
+      <bpmn:outgoing>stock-available</bpmn:outgoing>
+      <bpmn:outgoing>no-stock-available</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:sequenceFlow id="stock-available" name="Yes" sourceRef="is-stock-available" targetRef="charge-creditcard">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">#{stockAvailable}</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:exclusiveGateway id="is-payment-successfull" name="Payment successfull?">
+      <bpmn:incoming>Flow_1fx9mjq</bpmn:incoming>
+      <bpmn:outgoing>Flow_1si52f6</bpmn:outgoing>
+      <bpmn:outgoing>Flow_1lgkd39</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:sequenceFlow id="Flow_1si52f6" name="Yes" sourceRef="is-payment-successfull" targetRef="send-email">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">#{paymentSuccessfull}</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="Flow_1lgkd39" name="No" sourceRef="is-payment-successfull" targetRef="release-stock">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">#{not paymentSuccessfull}</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="no-stock-available" name="No" sourceRef="is-stock-available" targetRef="send-email">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">#{not stockAvailable}</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="Flow_163zqpr" sourceRef="release-stock" targetRef="send-email" />
+    <bpmn:endEvent id="end">
+      <bpmn:incoming>Flow_0rudiv0</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:serviceTask id="charge-creditcard" name="Charge creditcard" camunda:class="hu.perit.orchestrator.bpmn.orchestrator.ChargeCreditcardDelegate">
+      <bpmn:incoming>stock-available</bpmn:incoming>
+      <bpmn:outgoing>Flow_1fx9mjq</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:serviceTask id="release-stock" name="Release stock" camunda:class="hu.perit.orchestrator.bpmn.orchestrator.ReleaseStockDelegate">
+      <bpmn:incoming>Flow_1lgkd39</bpmn:incoming>
+      <bpmn:outgoing>Flow_163zqpr</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:sequenceFlow id="Flow_0rudiv0" sourceRef="send-email" targetRef="end" />
+    <bpmn:serviceTask id="send-email" name="Send email" camunda:class="hu.perit.orchestrator.bpmn.orchestrator.SendEmailDelegate">
+      <bpmn:incoming>Flow_1si52f6</bpmn:incoming>
+      <bpmn:incoming>Flow_163zqpr</bpmn:incoming>
+      <bpmn:incoming>no-stock-available</bpmn:incoming>
+      <bpmn:outgoing>Flow_0rudiv0</bpmn:outgoing>
+    </bpmn:serviceTask>
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="order-process">
+      <bpmndi:BPMNEdge id="Flow_0x0dbpt_di" bpmnElement="Flow_0x0dbpt">
+        <di:waypoint x="215" y="197" />
+        <di:waypoint x="270" y="197" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0e5fhjv_di" bpmnElement="Flow_0e5fhjv">
+        <di:waypoint x="370" y="197" />
+        <di:waypoint x="425" y="197" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1fx9mjq_di" bpmnElement="Flow_1fx9mjq">
+        <di:waypoint x="640" y="197" />
+        <di:waypoint x="705" y="197" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0zz9hno_di" bpmnElement="stock-available">
+        <di:waypoint x="475" y="197" />
+        <di:waypoint x="540" y="197" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="499" y="179" width="18" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1si52f6_di" bpmnElement="Flow_1si52f6">
+        <di:waypoint x="755" y="197" />
+        <di:waypoint x="820" y="197" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="763" y="213" width="18" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1lgkd39_di" bpmnElement="Flow_1lgkd39">
+        <di:waypoint x="730" y="222" />
+        <di:waypoint x="730" y="300" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="738" y="279" width="15" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0a93bmc_di" bpmnElement="no-stock-available">
+        <di:waypoint x="450" y="172" />
+        <di:waypoint x="450" y="80" />
+        <di:waypoint x="870" y="80" />
+        <di:waypoint x="870" y="157" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="462" y="133" width="15" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_163zqpr_di" bpmnElement="Flow_163zqpr">
+        <di:waypoint x="780" y="340" />
+        <di:waypoint x="870" y="340" />
+        <di:waypoint x="870" y="237" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0rudiv0_di" bpmnElement="Flow_0rudiv0">
+        <di:waypoint x="920" y="197" />
+        <di:waypoint x="992" y="197" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="start">
+        <dc:Bounds x="179" y="179" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1sn8mys_di" bpmnElement="reserve-stock">
+        <dc:Bounds x="270" y="157" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_0gxi9jm_di" bpmnElement="is-stock-available" isMarkerVisible="true">
+        <dc:Bounds x="425" y="172" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="409" y="232" width="81" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_08ao9yp_di" bpmnElement="is-payment-successfull" isMarkerVisible="true">
+        <dc:Bounds x="705" y="172" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="700" y="135" width="60" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1goc82v_di" bpmnElement="charge-creditcard">
+        <dc:Bounds x="540" y="157" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0ctn4sw_di" bpmnElement="release-stock">
+        <dc:Bounds x="680" y="300" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_0cfocai_di" bpmnElement="end">
+        <dc:Bounds x="992" y="179" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="989" y="172" width="43" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1ddn8d9_di" bpmnElement="send-email">
+        <dc:Bounds x="820" y="157" width="100" height="80" />
+      </bpmndi:BPMNShape>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>
