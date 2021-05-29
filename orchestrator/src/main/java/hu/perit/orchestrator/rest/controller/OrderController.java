@@ -56,7 +56,7 @@ public class OrderController extends AbstractInterfaceLogger implements OrderApi
                 .executeWithVariablesInReturn();
             
             String processInstanceId = instance.getProcessInstanceId();
-            log.debug(String.format("Order placed. Process id: '%s'", processInstanceId));
+            log.debug(String.format("Order process started. Process id: '%s'", processInstanceId));
             return PlaceOrderResponse.builder().processInstanceId(processInstanceId).build();
         }
         catch (Error | RuntimeException ex)

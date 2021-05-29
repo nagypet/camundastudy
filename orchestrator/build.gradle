@@ -39,6 +39,7 @@ dependencies {
 	compile project(':spvitamin-spring-admin')
 	compile project(':spvitamin-spring-logging')
 	compile project(':spvitamin-spring-security')
+	compile project(':spvitamin-spring-data')
 		
     // Lombok
     compileOnly 'org.projectlombok:lombok'
@@ -50,6 +51,7 @@ dependencies {
 
     // Spring Boot
 	implementation 'org.springframework.boot:spring-boot-starter-web'
+	implementation 'org.springframework.boot:spring-boot-starter-data'
 	implementation 'org.springframework.boot:spring-boot-starter-security'
     implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
     implementation 'org.springframework.boot:spring-boot-starter-validation'
