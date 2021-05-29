@@ -30,6 +30,8 @@ import hu.perit.spvitamin.core.crypto.CryptoUtil;
 import hu.perit.spvitamin.spring.config.SecurityProperties;
 import hu.perit.spvitamin.spring.config.SysConfig;
 import hu.perit.spvitamin.spring.rest.api.AuthApi;
+import hu.perit.spvitamin.spring.security.auth.CustomAccessDeniedHandler;
+import hu.perit.spvitamin.spring.security.auth.CustomAuthenticationEntryPoint;
 import hu.perit.spvitamin.spring.security.auth.SimpleHttpSecurityBuilder;
 import lombok.extern.slf4j.Slf4j;
 
@@ -104,9 +106,40 @@ public class WebSecurityConfig
     public static class Order2 extends WebSecurityConfigurerAdapter
     {
 
+        private final CustomAuthenticationEntryPoint authenticationEntryPoint;
+        private final CustomAccessDeniedHandler accessDeniedHandler;
+
+        public Order2(CustomAuthenticationEntryPoint authenticationEntryPoint, CustomAccessDeniedHandler accessDeniedHandler)
+        {
+            this.authenticationEntryPoint = authenticationEntryPoint;
+            this.accessDeniedHandler = accessDeniedHandler;
+        }
+
+
         @Override
         protected void configure(HttpSecurity http) throws Exception
         {
+
+            SimpleHttpSecurityBuilder.newInstance(http) //
+                .defaults() //
+                .exceptionHandler(this.authenticationEntryPoint, this.accessDeniedHandler) //
+                .logout()
+                // h2 console uses frames
+                .allowFrames() //
+                .authorizeSwagger() //
+                .authorizeActuator() //
+                .authorizeAdminGui().and() //
+                .authorizeRequests() //
+                .antMatchers(
+                    // H2
+                    "/h2/**",
+
+                    // error
+                    "/error",
+
+                    // Logout endpoint
+                    "/logout").permitAll();
+
             /*
              * SimpleHttpSecurityBuilder.newInstance(http) // .scope( //
              * BookApi.BASE_URL_BOOKS + "/**", // AuthorApi.BASE_URL_AUTHORS + "/**" // ) //
