@@ -1,0 +1,3 @@
+apply from: 'gradle/include-subprojects.gradle' 
+
+rootProject.name = 'camundastudy'
