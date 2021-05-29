@@ -32,8 +32,6 @@ application {
 sourceCompatibility = 11
 
 dependencies {
-	implementation platform('org.camunda.bpm:camunda-bom:7.15.0')
-
 	compile project(':spvitamin-core')		
 	compile project(':spvitamin-spring-server')
 	compile project(':spvitamin-spring-admin')
@@ -87,8 +85,6 @@ dependencies {
 	// Camunda
 	implementation 'org.camunda.bpm.springboot:camunda-bpm-spring-boot-starter-rest:7.15.0'
 	implementation 'org.camunda.bpm.springboot:camunda-bpm-spring-boot-starter-webapp:7.15.0'
-	//implementation 'org.camunda.bpm:camunda-engine-plugin-spin'
-	//implementation 'org.camunda.bpm:camunda-spin-dataformat-all:7.15.0'
 
 	// H2
 	implementation 'com.h2database:h2'
