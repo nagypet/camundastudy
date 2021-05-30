@@ -13,6 +13,8 @@ import hu.perit.spvitamin.spring.logging.EventLogId;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
+import io.swagger.annotations.Authorization;
+
 
 public interface OrderApi
 {
@@ -22,7 +24,7 @@ public interface OrderApi
     // placeOrder
     //------------------------------------------------------------------------------------------------------------------
     @PostMapping(BASE_URL_ORDERS)
-    @ApiOperation(value = "placeOrder() - creates a new order")
+    @ApiOperation(value = "placeOrder() - creates a new order", authorizations = {@Authorization(value = "basicAuth")})
     @ApiResponses(value = { //
         @ApiResponse(code = 201, message = "Created"), //
         @ApiResponse(code = 400, message = "Bad request"), //

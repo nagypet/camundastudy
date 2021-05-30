@@ -111,8 +111,7 @@ public class WebSecurityConfig
         {
             SimpleHttpSecurityBuilder.newInstance(http) // 
                 .scope(OrderApi.BASE_URL_ORDERS + "/**") //
-                .authorizeRequests() // 
-                .anyRequest().permitAll();
+                .basicAuth();
         }
 
     }
