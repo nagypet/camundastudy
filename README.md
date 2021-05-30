@@ -121,6 +121,8 @@ public class SendEmailDelegate implements JavaDelegate
 
 ## The Camunda database
 
+Camunda will connect automatically to the primary data source, I could not find any solution to set the datasource otherwise. But it is possible to create a secondary or even tertiary data source as proposed in this study. Check out the db package.
+
 https://localhost:8400/h2
 
 - JDBC URL: jdbc:h2:mem:camunda
