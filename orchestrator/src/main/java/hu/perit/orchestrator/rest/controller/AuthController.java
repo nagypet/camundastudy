@@ -9,7 +9,7 @@ import hu.perit.spvitamin.spring.auth.AuthorizationToken;
 import hu.perit.spvitamin.spring.logging.AbstractInterfaceLogger;
 import hu.perit.spvitamin.spring.rest.api.AuthApi;
 import hu.perit.spvitamin.spring.security.AuthenticatedUser;
-import hu.perit.spvitamin.spring.security.auth.SpvitaminAuthorizationService;
+import hu.perit.spvitamin.spring.security.auth.AuthorizationService;
 import hu.perit.spvitamin.spring.security.auth.jwt.JwtTokenProvider;
 import hu.perit.spvitamin.spring.security.auth.jwt.TokenClaims;
 
@@ -18,9 +18,9 @@ public class AuthController extends AbstractInterfaceLogger implements AuthApi
 {
 
     private final JwtTokenProvider tokenProvider;
-    private final SpvitaminAuthorizationService authorizationService;
+    private final AuthorizationService authorizationService;
 
-    protected AuthController(JwtTokenProvider tokenProvider, SpvitaminAuthorizationService authorizationService, HttpServletRequest httpRequest)
+    protected AuthController(JwtTokenProvider tokenProvider, AuthorizationService authorizationService, HttpServletRequest httpRequest)
     {
         super(httpRequest);
         this.authorizationService = authorizationService;

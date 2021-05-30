@@ -17,7 +17,7 @@ import hu.perit.orchestrator.rest.model.PlaceOrderResponse;
 import hu.perit.orchestrator.rest.model.ShoppingCart;
 import hu.perit.spvitamin.core.took.Took;
 import hu.perit.spvitamin.spring.logging.AbstractInterfaceLogger;
-import hu.perit.spvitamin.spring.security.auth.SpvitaminAuthorizationService;
+import hu.perit.spvitamin.spring.security.auth.AuthorizationService;
 import lombok.extern.slf4j.Slf4j;
 
 @RestController
@@ -25,10 +25,10 @@ import lombok.extern.slf4j.Slf4j;
 public class OrderController extends AbstractInterfaceLogger implements OrderApi
 {
 
-    private final SpvitaminAuthorizationService authorizationService;
+    private final AuthorizationService authorizationService;
     private final RuntimeService camundaRuntimeService;
 
-    protected OrderController(HttpServletRequest httpRequest, SpvitaminAuthorizationService authorizationService,
+    protected OrderController(HttpServletRequest httpRequest, AuthorizationService authorizationService,
         RuntimeService camundaRuntimeService)
     {
         super(httpRequest);

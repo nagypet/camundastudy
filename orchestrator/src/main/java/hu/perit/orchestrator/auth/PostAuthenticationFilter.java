@@ -37,7 +37,7 @@ import org.springframework.web.servlet.HandlerExceptionResolver;
 
 import hu.perit.spvitamin.spring.config.SpringContext;
 import hu.perit.spvitamin.spring.security.AuthenticatedUser;
-import hu.perit.spvitamin.spring.security.auth.SpvitaminAuthorizationService;
+import hu.perit.spvitamin.spring.security.auth.AuthorizationService;
 import hu.perit.spvitamin.spring.security.auth.filter.FilterAuthenticationException;
 import lombok.extern.slf4j.Slf4j;
 
@@ -56,7 +56,7 @@ public class PostAuthenticationFilter extends OncePerRequestFilter
 
         try
         {
-            SpvitaminAuthorizationService authorizationService = SpringContext.getBean(SpvitaminAuthorizationService.class);
+            AuthorizationService authorizationService = SpringContext.getBean(AuthorizationService.class);
 
             AuthenticatedUser authenticatedUser = authorizationService.getAuthenticatedUser();
             if (!authenticatedUser.isAnonymous())
