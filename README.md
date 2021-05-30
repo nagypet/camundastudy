@@ -1,5 +1,20 @@
 # camundastudy
 
+This study demonstrates:
+- The SAGA pattern
+- How to create an orchestrator with Camunda
+
+Content
+- Cloning the repository
+- Building the project
+- Order process
+- Binding Java classes to service tasks
+- Using expression in a gateway
+- The Send email task
+- The Camunda database
+- Storing history
+- Idempotent transactions
+
 ## Cloning the repository
 
 This project requires the `Spvitamin` library. Please clone it into your project's root folder.
@@ -154,6 +169,8 @@ public class ChargeCreditcardDelegate implements JavaDelegate
     }
 }
 ```
+
+![](https://github.com/nagypet/camundastudy/blob/main/doc/pics/task-history.jpg)
 
 ## Idempotent transactions
 
