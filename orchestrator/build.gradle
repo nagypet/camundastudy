@@ -14,11 +14,15 @@ repositories {
     flatDir {
         dirs '../gradle/localrepo'
     }
+	maven {
+        url "http://perit.hu/maven"
+    }
 }
 
 
 ext {
 	set('springCloudVersion', "2020.0.2")
+	set('spvitaminVersion', '1.1.0-RELEASE')
 }
 
 
@@ -32,12 +36,19 @@ application {
 sourceCompatibility = 11
 
 dependencies {
-	compile project(':spvitamin-core')		
-	compile project(':spvitamin-spring-server')
-	compile project(':spvitamin-spring-admin')
-	compile project(':spvitamin-spring-logging')
-	compile project(':spvitamin-spring-security')
-	compile project(':spvitamin-spring-data')
+	//compile project(':spvitamin-core')		
+	//compile project(':spvitamin-spring-server')
+	//compile project(':spvitamin-spring-admin')
+	//compile project(':spvitamin-spring-logging')
+	//compile project(':spvitamin-spring-security')
+	//compile project(':spvitamin-spring-data')
+		
+	implementation "hu.perit.spvitamin:spvitamin-core:${spvitaminVersion}"
+	implementation "hu.perit.spvitamin:spvitamin-spring-server:${spvitaminVersion}"
+	implementation "hu.perit.spvitamin:spvitamin-spring-admin:${spvitaminVersion}"
+	implementation "hu.perit.spvitamin:spvitamin-spring-logging:${spvitaminVersion}"
+	implementation "hu.perit.spvitamin:spvitamin-spring-security:${spvitaminVersion}"
+	implementation "hu.perit.spvitamin:spvitamin-spring-data:${spvitaminVersion}"
 		
     // Lombok
     compileOnly 'org.projectlombok:lombok'
