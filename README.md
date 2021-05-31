@@ -17,34 +17,8 @@ Content
 
 ## Cloning the repository
 
-This project requires the `Spvitamin` library. Please clone it into your project's root folder.
-
-git clone https://github.com/nagypet/spvitamin.git
-
-So that you have this structure:
 ```
-c:\np\github\camundastudy>dir
- Volume in drive C has no label.
- Volume Serial Number is BEA2-3C2D
-
- Directory of c:\np\github\camundastudy
-
-2021.05.29  16:28    <DIR>          .
-2021.05.29  16:28    <DIR>          ..
-2021.05.29  10:09               405 .gitignore
-2021.05.29  16:28    <DIR>          .gradle
-2021.05.29  13:52    <DIR>          doc
-2021.05.24  14:08    <DIR>          first
-2021.05.29  09:33    <DIR>          gradle
-2021.05.14  12:50             6 105 gradlew
-2021.05.14  12:50             2 942 gradlew.bat
-2021.05.23  14:37            11 558 LICENSE
-2021.05.29  09:40    <DIR>          orchestrator
-2021.05.29  16:20             3 317 README.md
-2021.05.29  16:27                87 settings.gradle
-2021.05.29  09:34    <DIR>          spvitamin
-               6 File(s)         24 414 bytes
-               8 Dir(s)  269 315 895 296 bytes free
+git clone https://github.com/nagypet/camundastudy.git
 ```
 
 ## Building the project
