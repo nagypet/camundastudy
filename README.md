@@ -26,32 +26,19 @@ git clone https://github.com/nagypet/camundastudy.git
 Change dir to the orchestrator folder and run:
 
 ```
-c:\np\github\camundastudy\orchestrator>gradlew dist
+c:\np\github\camundastudy\orchestrator>gradlew clean dist
 Included projects:
-  :spvitamin-core => C:\np\github\camundastudy\spvitamin\spvitamin-core
-  :spvitamin-spring-server => C:\np\github\camundastudy\spvitamin\spvitamin-spring-server
-  :spvitamin-spring-general => C:\np\github\camundastudy\spvitamin\spvitamin-spring-general
-  :spvitamin-spring-admin => C:\np\github\camundastudy\spvitamin\spvitamin-spring-admin
-  :spvitamin-spring-security => C:\np\github\camundastudy\spvitamin\spvitamin-spring-security
-  :spvitamin-spring-logging => C:\np\github\camundastudy\spvitamin\spvitamin-spring-logging
-  :spvitamin-spring-data => C:\np\github\camundastudy\spvitamin\spvitamin-spring-data
-Dependency check took 16 ms
+Dependency check took 7 ms
 
-> Task :spvitamin-spring-general:compileTestJava
-Note: C:\np\github\camundastudy\spvitamin\spvitamin-spring-general\src\test\java\hu\perit\spvitamin\spring\connectablecontext\ThreadSpecificContextHolder.java uses unchecked or unsafe operations.
-Note: Recompile with -Xlint:unchecked for details.
-
-> Task :spvitamin-spring-security:compileTestJava
-Note: C:\np\github\camundastudy\spvitamin\spvitamin-spring-security\src\test\java\hu\perit\spvitamin\spring\security\auth\jwt\JwtTokenProviderTest.java uses or overrides a deprecated API.
-Note: Recompile with -Xlint:deprecation for details.
-
-BUILD SUCCESSFUL in 29s
-37 actionable tasks: 32 executed, 5 up-to-date
+BUILD SUCCESSFUL in 4s
+8 actionable tasks: 8 executed
 ```
 
 After successful compilation start the `run.bat`. 
 
-https://localhost:8400/swagger-ui.html
+Check if server is up and running. 
+
+https://localhost:8400/admin-gui
 
 ## Order process
 
