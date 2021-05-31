@@ -1,0 +1,23 @@
+#docker compose for the kafkastudy project
+
+version: '3.6'
+
+networks:
+    back-tier-net:
+        driver: bridge
+
+services:
+
+    #####################################################################################                 
+    orchestrator:
+    #####################################################################################                 
+        container_name: camundastudy-orchestrator
+        image: camundastudy-orchestrator
+        environment:
+              - JAVA_OPTS=
+              #- WEBSERVICE_OPTS=-Dspring.profiles.active=dev-docker,dev-docker-sqlserver -Dserver.fqdn=webservice.wsstepbystep.perit.hu -Dserver.port=8400 
+        ports:
+            - "8400:8400"
+        networks: 
+            - back-tier-net
+        hostname: 'orchestrator'

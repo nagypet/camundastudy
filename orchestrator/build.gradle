@@ -4,6 +4,16 @@ plugins {
     id 'application'
 	id "com.github.ManifestClasspath" version "0.1.0-RELEASE"
 }
+
+ext {
+	// Itt will be used to prefix docker image name
+	set('imagePrefix', 'camundastudy')
+	set('springCloudVersion', "2020.0.2")
+	set('spvitaminVersion', '1.1.0-RELEASE')
+}
+
+sourceCompatibility = 11
+
 apply from: '../gradle/common.gradle'
 apply from: '../gradle/docker.gradle'
 
@@ -20,20 +30,12 @@ repositories {
 }
 
 
-ext {
-	set('springCloudVersion', "2020.0.2")
-	set('spvitaminVersion', '1.1.0-RELEASE')
-}
-
-
 application {
     mainClassName = 'hu.perit.orchestrator.Application'
     // Some JVM options already set in common.gradle
     applicationDefaultJvmArgs += ['-Xmx512m', '-Xms32m']
 }
 
-
-sourceCompatibility = 11
 
 dependencies {
 	//compile project(':spvitamin-core')		
@@ -79,14 +81,7 @@ dependencies {
 
     // Validation
     implementation 'javax.validation:validation-api'
-
-	// FasterXML
-    implementation 'com.fasterxml.jackson.core:jackson-core'
-    implementation 'com.fasterxml.jackson.core:jackson-databind'
     
-    // YAML formatting
-    implementation 'com.fasterxml.jackson.dataformat:jackson-dataformat-yaml'
-
     // ModelMapper
     implementation group: 'org.modelmapper.extensions', name: 'modelmapper-spring', version: '2.3.5'
 
