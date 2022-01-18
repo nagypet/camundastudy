@@ -1,5 +1,5 @@
 /*
- * Copyright 2020-2020 the original author or authors.
+ * Copyright 2020-2022 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,6 +16,8 @@
 
 package hu.perit.orchestrator.auth;
 
+import hu.perit.spvitamin.spring.config.LocalUserProperties;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
@@ -36,6 +38,8 @@ import hu.perit.spvitamin.spring.security.auth.CustomAuthenticationEntryPoint;
 import hu.perit.spvitamin.spring.security.auth.SimpleHttpSecurityBuilder;
 import lombok.extern.slf4j.Slf4j;
 
+import java.util.Map;
+
 /**
  * #know-how:simple-httpsecurity-builder
  *
@@ -52,8 +56,11 @@ public class WebSecurityConfig
      */
     @Configuration
     @Order(1)
+    @RequiredArgsConstructor
     public static class Order1 extends WebSecurityConfigurerAdapter
     {
+        private final LocalUserProperties localUserProperties;
+        private final PasswordEncoder passwordEncoder;
 
         /**
          * This is a global configuration, will be applied to all oder configurer
@@ -67,27 +74,29 @@ public class WebSecurityConfig
         {
             SecurityProperties securityProperties = SysConfig.getSecurityProperties();
 
-            // Admin user
-            PasswordEncoder passwordEncoder = getApplicationContext().getBean(PasswordEncoder.class);
-            if (StringUtils.hasText(securityProperties.getAdminUserName()) && !"disabled".equals(securityProperties.getAdminUserName()))
+            // Local users for test reasons
+            for (Map.Entry<String, LocalUserProperties.User> userEntry : localUserProperties.getLocaluser().entrySet())
             {
-                CryptoUtil crypto = new CryptoUtil();
-                auth.inMemoryAuthentication() //
-                    .withUser(securityProperties.getAdminUserName()) //
-                    .password(passwordEncoder.encode(
-                        crypto.decrypt(SysConfig.getCryptoProperties().getSecret(), securityProperties.getAdminUserEncryptedPassword()))) //
-                    .authorities("ROLE_" + Role.ADMIN.name(), "ROLE_" + Role.PUBLIC.name());
-            }
-            else
-            {
-                log.warn("admin user is disabled!");
-            }
 
-            // A public user
-            auth.inMemoryAuthentication() //
-                .withUser("user") //
-                .password(passwordEncoder.encode("user")) //
-                .authorities("ROLE_" + Role.PUBLIC.name());
+                log.warn(String.format("local user name: '%s'", userEntry.getKey()));
+
+                String password = null;
+                if (userEntry.getValue().getEncryptedPassword() != null)
+                {
+                    CryptoUtil crypto = new CryptoUtil();
+
+                    password = crypto.decrypt(SysConfig.getCryptoProperties().getSecret(), userEntry.getValue().getEncryptedPassword());
+                }
+                else
+                {
+                    password = userEntry.getValue().getPassword();
+                }
+
+                auth.inMemoryAuthentication() //
+                        .withUser(userEntry.getKey()) //
+                        .password(passwordEncoder.encode(password)) //
+                        .authorities("ROLE_" + Role.EMPTY.name());
+            }
         }
 
         @Override

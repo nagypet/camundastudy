@@ -1,5 +1,5 @@
 <!--
-  ~ Copyright 2020-2020 the original author or authors.
+  ~ Copyright 2020-2022 the original author or authors.
   ~
   ~ Licensed under the Apache License, Version 2.0 (the "License");
   ~ you may not use this file except in compliance with the License.
@@ -33,18 +33,20 @@
 	<logger name="org.springframework.boot.web.embedded.tomcat" level="INFO"/>
 	<logger name="com.zaxxer.hikari.HikariConfig" level="INFO"/>
 	<logger name="com.zaxxer.hikari" level="ERROR"/>
+	<!--
 	<logger name="org.hibernate.SQL" level="DEBUG"/>
+	<logger name="org.springframework.orm.jpa" level="DEBUG"/>
 	<logger name="org.hibernate.type.descriptor.sql.BasicBinder" level="TRACE"/>
+	-->
 	<logger name="org.springframework.boot.context.config" level="DEBUG"/>
 	<logger name="com.thoughtworks.xstream" level="OFF"/>
+	<!--
 	<logger name="org.springframework.transaction.interceptor" level="TRACE"/>
+	-->
 	<!-- flooding the log -->
 	<logger name="com.netflix.discovery" level="OFF"/>
 
-	<!-- Application specific loggers -->
-	<logger name="hu.perit.orchestrator" level="DEBUG" additivity="false">
-		<appender-ref ref="application-message"/>
-	</logger>	
+	<!-- Spvitamin loggers -->
 	<logger name="hu.perit.spvitamin.core.took" level="DEBUG" additivity="false">
 		<appender-ref ref="application-message"/>
 	</logger>	
@@ -53,16 +55,30 @@
 	</logger>	
 	<logger name="hu.perit.spvitamin.spring.logging" level="DEBUG" additivity="false">
 		<appender-ref ref="application-message"/>
-	</logger>		
-	<logger name="hu.perit.spvitamin.spring.data.dynamicdatasource" level="INFO" additivity="false">
+	</logger>
+	<logger name="hu.perit.spvitamin.spring.httplogging" level="INFO" additivity="false">
 		<appender-ref ref="application-message"/>
 	</logger>
-	<logger name="hu.perit.spvitamin.spring.auth.filter.securitycontextremover" level="WARN" additivity="false">
+	<logger name="hu.perit.spvitamin.data.dynamicdatasource" level="INFO" additivity="false">
+		<appender-ref ref="application-message"/>
+	</logger>
+	<logger name="hu.perit.spvitamin.spring.security" level="DEBUG" additivity="false">
+		<appender-ref ref="application-message"/>
+	</logger>
+	<logger name="hu.perit.spvitamin.spring.security.auth.filter" level="DEBUG" additivity="false">
+		<appender-ref ref="application-message"/>
+	</logger>
+	<logger name="hu.perit.spvitamin.spring.security.auth.filter.securitycontextremover" level="INFO" additivity="false">
 		<appender-ref ref="application-message"/>
 	</logger>
 	<logger name="hu.perit.spvitamin.spring.security.ldap" level="DEBUG" additivity="false">
 		<appender-ref ref="application-message"/>
 	</logger>
+
+	<!-- Application specific loggers -->
+	<logger name="hu.perit.orchestrator" level="DEBUG" additivity="false">
+		<appender-ref ref="application-message"/>
+	</logger>	
 	
 	<!--
 	<logger name="com.netflix.discovery" level="OFF"/>
